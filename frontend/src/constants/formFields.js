@@ -1,0 +1,77 @@
+const loginFields = [
+  {
+    labelText: 'Email address',
+    labelFor: 'email-address',
+    id: 'email',
+    name: 'email',
+    type: 'email',
+    autoComplete: 'email',
+    isRequired: true,
+    placeholder: 'Email address',
+  },
+  {
+    labelText: 'Password',
+    labelFor: 'password',
+    id: 'password',
+    name: 'password',
+    type: 'password',
+    autoComplete: 'current-password',
+    isRequired: true,
+    placeholder: 'Password',
+  },
+];
+
+const signupFields = [
+  {
+    labelText: 'First Name',
+    labelFor: 'First Name',
+    id: 'firstName',
+    name: 'firstName',
+    type: 'text',
+    autoComplete: 'First Name',
+    isRequired: true,
+    placeholder: 'First Name',
+  },
+  {
+    labelText: 'Last Name',
+    labelFor: 'Last Name',
+    id: 'lastName',
+    name: 'lastName',
+    type: 'text',
+    autoComplete: 'Last Name',
+    isRequired: true,
+    placeholder: 'Last Name',
+  },
+  {
+    labelText: 'Email address',
+    labelFor: 'email-address',
+    id: 'email',
+    name: 'email',
+    type: 'email',
+    autoComplete: 'email',
+    isRequired: true,
+    placeholder: 'Email address',
+  },
+  {
+    labelText: 'Password',
+    labelFor: 'password',
+    id: 'password',
+    name: 'password',
+    type: 'password',
+    autoComplete: 'current-password',
+    isRequired: true,
+    placeholder: 'Password',
+  },
+  {
+    labelText: 'Confirm Password',
+    labelFor: 'confirm-password',
+    id: 'confirm-password',
+    name: 'confirm-password',
+    type: 'password',
+    autoComplete: 'confirm-password',
+    isRequired: true,
+    placeholder: 'Confirm Password',
+  },
+];
+
+export { loginFields, signupFields };
