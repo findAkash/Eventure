@@ -24,7 +24,7 @@ export default function Header({
         {paragraph}{' '}
         <Link
           to={linkUrl}
-          className="font-medium text-tomato hover:text-tomato-dark"
+          className="font-medium text-blue hover:text-blue-dark"
         >
           {linkName}
         </Link>

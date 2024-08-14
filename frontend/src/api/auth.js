@@ -2,6 +2,7 @@ import axios from 'axios';
 import { API } from './api';
 import { removeToken } from '../utils/RemoveToken';
 import { toast, ToastContainer } from 'react-toastify';
+import Login from '../components/auth/Login';
 
 export const Auth = {
   Login: async (email, password) => {
@@ -11,13 +12,11 @@ export const Auth = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
     });
-
-    if (response.ok) {
-      return await response.json();
-    } else {
-      throw new Error(`Login failed: ${response.statusText}`);
-    }
+    return await response.json();
   },
+
+  // LoginWithGoogle: async () => {
+  //   const response = await fetch(API.LoginWithGoogleAPI, {
 
   Signup: async (data) => {
     const response = await fetch(API.SignupAPI, {
@@ -42,5 +41,14 @@ export const Auth = {
     } else {
       throw new Error(`Logout failed: ${response.statusText}`);
     }
+  },
+
+  LoginWithGoogleAPI: async (data) => {
+    const response = await fetch(API.LoginWithGoogleAPI, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data }),
+    });
+    return await response.json();
   },
 };

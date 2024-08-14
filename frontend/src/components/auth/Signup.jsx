@@ -4,7 +4,7 @@ import FormAction from './FormAction';
 import Input from './Input';
 import { Auth } from '../../api/auth';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import 'react-toastify/dist/ReactToastify.css';
 
 const fields = signupFields;
 let fieldsState = {};

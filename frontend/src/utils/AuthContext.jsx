@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Create a Context for the authentication state
 const AuthContext = createContext();
@@ -13,37 +13,41 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const history = useHistory();
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
-  // Example: Check if user is authenticated on component mount
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      // You might want to validate the token and fetch user details here
+      // Fetch user data here
+      // setUser(fetchedUserData);
       setIsAuthenticated(true);
-      setUser({ name: 'John Doe' }); // Set the user data here after validation
     }
+    setIsLoading(false);
   }, []);
 
-  const login = (userData, token) => {
+  const loginSetup = (token, refreshToken) => {
     setIsAuthenticated(true);
-    setUser(userData);
+    console.log('Login Setup', token, refreshToken);
     localStorage.setItem('token', token); // Save token to local storage or cookies
-    history.push('/dashboard'); // Redirect to dashboard after login
+    localStorage.setItem('refreshToken', refreshToken); // Save refresh token to local storage or cookies
+    console.log('Login Setup done', token, refreshToken);
+    navigate('/Home');
   };
 
-  const logout = () => {
+  const logoutSetup = () => {
     setIsAuthenticated(false);
     setUser(null);
     localStorage.removeItem('token'); // Remove token from storage
-    history.push('/login'); // Redirect to login page after logout
+    navigate('/login'); // Use navigate instead of history.push
   };
-
+  console.log('isAuthenticated:', isAuthenticated);
   const value = {
     isAuthenticated,
     user,
-    login,
-    logout,
+    loginSetup,
+    logoutSetup,
+    isLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
