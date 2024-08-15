@@ -2,9 +2,12 @@ package fr.epita.eventure.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.NotBlank;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -16,12 +19,24 @@ public class Task {
     private String id;
 
     @NotBlank
-    private String name;
+    private String title;
 
+    @NotBlank
+    private String description;
+
+    @NotBlank
     private String assignedTo;
 
-    private boolean completed;
+    @NotBlank
+    private String status;
 
+    @NotBlank
     private String eventId;
+
+    @NotBlank
+    private LocalDateTime deadline;
+
+    @NotBlank
+    private String createdBy;
 }
 

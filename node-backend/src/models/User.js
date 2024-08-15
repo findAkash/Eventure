@@ -59,21 +59,22 @@ UserSchema.pre('save', function (next) {
   next();
 });
 
-UserSchema.methods.generateAccessToken = function () {
-  const token = jwt.sign({ userId: this.userId }, CONFIG.ACCESS_TOKEN_SECRET, {
-    expiresIn: '1h',
+UserSchema.methods.generateAccessToken = function (userId) {
+  const token = jwt.sign({ userId: userId }, CONFIG.ACCESS_TOKEN_SECRET, {
+    expiresIn: '50d',
   });
   return token;
 };
 
-UserSchema.methods.generateRefreshToken = function () {
-  const token = jwt.sign({ userId: this.userId }, CONFIG.REFRESH_TOKEN_SECRET, {
+UserSchema.methods.generateRefreshToken = function (userId) {
+  const token = jwt.sign({ userId: userId }, CONFIG.REFRESH_TOKEN_SECRET, {
     expiresIn: '7d',
   });
   return token;
 };
 
 UserSchema.methods.comparePassword = function (password) {
+  console.log(this.password, password);
   return bcrypt.compare(password, this.password);
 };
 

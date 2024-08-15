@@ -30,7 +30,7 @@ export default function Login() {
     Auth.Login(loginState.email, loginState.password)
       .then((res) => {
         if (res.success) {
-          loginSetup(res.accessToken, res.refreshToken);
+          loginSetup(res.accessToken, res.refreshToken, res.user); // Pass user data here
           toast.success('Login Successful');
         } else {
           toast.error(res.message);

@@ -5,6 +5,8 @@ import fr.epita.eventure.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +18,25 @@ public class TaskService {
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
+    }
+
+    public List<Task> getPersonalTasks(String userId){
+        return taskRepository.findByCreatedByOrAssignedToOrderByDeadlineDesc(userId, userId);
+    }
+
+    public List<Task> getPastTasks(String userId) {
+        // Get the current time in UTC
+        LocalDateTime currentTime = LocalDateTime.now(ZoneOffset.UTC);
+        System.out.println("Current Time (UTC): " + currentTime);
+
+        List<Task> pastTasks = taskRepository.findByCreatedByOrAssignedToAndDeadlineBeforeOrderByDeadlineDesc(userId, userId, currentTime);
+
+        for (Task task : pastTasks) {
+            System.out.println("Task Title: " + task.getTitle());
+            System.out.println("Task Deadline: " + task.getDeadline());
+        }
+
+        return pastTasks;
     }
 
     public Optional<Task> getTaskById(String id) {

@@ -26,20 +26,33 @@ const AddEventForm = ({ onAdd }) => {
       description,
       participants,
     };
-    const response = await EventAPI.AddEvent(newEvent);
-    if (response.success) {
-      console.log('Event added successfully');
-      toast.success('Event added successfully');
-    } else {
-      console.error(response.message);
-      toast.error(response.message);
-    }
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
+    const userId = user ? user._id : null;
+    const token = localStorage.getItem('token');
+    newEvent.postedBy = userId;
 
-    onAdd(newEvent);
+    try {
+      const response = await EventAPI.AddEvent(newEvent, token);
+      if (response.status === 200) {
+        console.log('Event added successfully');
+        toast.success('Event added successfully');
+        onAdd(newEvent); // Call the onAdd function to refresh the event list
+      } else {
+        console.error(response.message);
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error('Error adding event:', error);
+      toast.error('Failed to add event');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 bg-white shadow-md rounded-md">
+    <form
+      onSubmit={handleSubmit}
+      className="p-6 mb-10 w-full max-w-xl bg-white shadow-md rounded-md mx-auto"
+    >
       <h2 className="text-xl font-bold mb-4">Add New Event</h2>
       <div className="mb-4">
         <label className="block text-gray-700">Title</label>
@@ -70,7 +83,7 @@ const AddEventForm = ({ onAdd }) => {
         <button
           type="button"
           onClick={() => setImages([...images, ''])}
-          className="text-blue-500"
+          className="text-blue hover:bg-blue-dark"
         >
           Add Another Image
         </button>
@@ -134,14 +147,14 @@ const AddEventForm = ({ onAdd }) => {
         <button
           type="button"
           onClick={() => setParticipants([...participants, ''])}
-          className="text-blue-500"
+          className="text-blue hover:bg-blue-dark"
         >
           Add Another Participant
         </button>
       </div>
       <button
         type="submit"
-        className="bg-blue-dark text-white px-4 py-2 rounded"
+        className="bg-blue hover:bg-blue-dark text-white px-4 py-2 rounded"
       >
         Add Event
       </button>

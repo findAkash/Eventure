@@ -32,7 +32,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
                 HttpMethod.DELETE.matches(request.getMethod())) {
 
             String token = request.getHeader("Authorization");
-
+            System.out.println("token = " + token);
             if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
                 logger.warn("Unauthorized: Missing or invalid token");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -7,8 +7,9 @@ import MobileMenu from './MobileMenu';
 import { ToastContainer } from 'react-toastify';
 import { Logo } from './Logo';
 import { BellIcon, ChatIcon } from '@heroicons/react/outline';
+import SearchBar from '../SearchBar';
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   const location = useLocation();
 
   // Determine the current route
@@ -40,6 +41,7 @@ const Navbar = () => {
               <div className="flex flex-1 items-center justify-start space-x-4">
                 <Logo /> {/* Custom logo component */}
                 <NavigationItems navigation={navigation} />
+                <SearchBar onSearch={onSearch} />
               </div>
               <div className="flex items-center space-x-4">
                 {/* Notification Icon */}

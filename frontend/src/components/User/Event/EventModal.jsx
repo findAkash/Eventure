@@ -1,4 +1,13 @@
 import React, { useState } from 'react';
+import {
+  FaTimes,
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaUsers,
+  FaDollarSign,
+  FaPen,
+  FaTrash,
+} from 'react-icons/fa';
 
 const EventModal = ({ event, onClose, onEdit, onDelete }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -45,14 +54,21 @@ const EventModal = ({ event, onClose, onEdit, onDelete }) => {
         style={{ zIndex: 1001 }} // Ensure high z-index to be on top of the overlay
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold text-gray-800">{event.title}</h2>
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+        >
+          <FaTimes className="text-2xl" />
+        </button>
+
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">{event.title}</h2>
 
         {event.images && event.images.length > 0 && (
-          <div className="relative">
+          <div className="relative mb-4">
             <img
               src={event.images[currentImageIndex]}
               alt="Event"
-              className="w-full h-64 object-cover rounded-lg"
+              className="w-full h-80 object-cover rounded-lg"
             />
             <div className="absolute inset-0 flex items-center justify-between text-white text-xl font-semibold bg-black bg-opacity-30 rounded-lg">
               <button
@@ -71,36 +87,50 @@ const EventModal = ({ event, onClose, onEdit, onDelete }) => {
           </div>
         )}
 
-        <p className="mt-4 text-gray-600">Date: {formattedDate}</p>
-        <p className="text-gray-600">Time: {formattedTime}</p>
-        <p className="text-gray-600">Location: {event.location}</p>
-        {event.charge && (
-          <p className="text-gray-600">Charge: {event.charge}</p>
-        )}
-        <p className="mt-4 text-gray-600">{event.description}</p>
+        <div className="mb-4">
+          <p className="text-gray-600 mb-2 flex items-center">
+            <FaCalendarAlt className="text-gray-500 mr-2" />
+            <strong>Date:</strong> {formattedDate}
+          </p>
+          <p className="text-gray-600 mb-2 flex items-center">
+            <FaCalendarAlt className="text-gray-500 mr-2" />
+            <strong>Time:</strong> {formattedTime}
+          </p>
+          <p className="text-gray-600 mb-2 flex items-center">
+            <FaMapMarkerAlt className="text-gray-500 mr-2" />
+            <strong>Location:</strong> {event.location}
+          </p>
+          {event.charge && (
+            <p className="text-gray-600 mb-2 flex items-center">
+              <FaDollarSign className="text-gray-500 mr-2" />
+              <strong>Charge:</strong> {event.charge}
+            </p>
+          )}
+          <p className="text-gray-600">{event.description}</p>
+        </div>
 
-        <div className="mt-4 flex justify-end space-x-4">
+        <div className="flex justify-end space-x-4 mt-4">
           <button
             onClick={() => {
               onEdit();
               onClose();
             }}
-            className="bg-blue-dark text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center"
           >
-            Edit
+            <FaPen className="mr-1" /> Edit
           </button>
-          <button
+          {/* <button
             onClick={() => {
               onDelete();
               onClose();
             }}
-            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
-          >
-            Delete
-          </button>
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg flex items-center"
+          > */}
+          {/* <FaTrash className="mr-1" /> Delete
+          </button> */}
           <button
             onClick={onClose}
-            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg"
           >
             Close
           </button>

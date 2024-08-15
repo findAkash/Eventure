@@ -24,7 +24,7 @@ import device from 'express-device';
       saveUninitialized: true,
     })
   );
-  app.use(cors());
+  app.use(cors('*'));
   app.use(express.json());
   app.use(device.capture());
   app.set('view engine', 'ejs');

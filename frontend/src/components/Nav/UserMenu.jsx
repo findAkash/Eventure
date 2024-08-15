@@ -43,13 +43,26 @@ const UserMenu = () => {
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href="#"
+                  href="/profile"
                   className={classNames(
                     active ? 'bg-gray-100 text-blue-600' : 'text-gray-700',
                     'block px-4 py-2 text-sm'
                   )}
                 >
                   Profile
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="/change-password"
+                  className={classNames(
+                    active ? 'bg-gray-100 text-blue-600' : 'text-gray-700',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Change Password
                 </a>
               )}
             </Menu.Item>

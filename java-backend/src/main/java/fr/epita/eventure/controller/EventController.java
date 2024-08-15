@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/events")
+@RequestMapping("/api/v1/events")
 public class EventController {
 
     @Autowired
@@ -19,6 +19,21 @@ public class EventController {
     @GetMapping
     public List<Event> getAllEvents() {
         return eventService.getAllEvents();
+    }
+
+    @GetMapping("/me/{userId}")
+    public List<Event> getMyEvents(@PathVariable String userId) {
+        return eventService.getMyEvents(userId);
+    }
+
+    @GetMapping("/all-upcoming")
+    public List<Event> getAllUpcomingEvents(){
+        return eventService.getAllUpcomingEvents();
+    }
+
+    @GetMapping("/me/past/{userId}")
+    public List<Event> getMyPastEvents(@PathVariable String userId) {
+        return eventService.getPastEvents(userId);
     }
 
     @GetMapping("/check")

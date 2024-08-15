@@ -130,7 +130,7 @@ const EditEventModal = ({ event, onClose, onSave }) => {
             />
             <button
               onClick={handleAddParticipant}
-              className="bg-blue-600 text-white px-4 py-2 rounded"
+              className="bg-blue hover:bg-blue-dark text-white px-4 py-2 rounded"
             >
               Add
             </button>
@@ -163,7 +163,7 @@ const EditEventModal = ({ event, onClose, onSave }) => {
             />
             <button
               onClick={handleAddImage}
-              className="bg-blue-dark text-white px-4 py-2 rounded"
+              className="bg-blue hover:bg-blue-dark text-white px-4 py-2 rounded"
             >
               Add
             </button>
@@ -197,7 +197,7 @@ const EditEventModal = ({ event, onClose, onSave }) => {
           </button>
           <button
             onClick={handleSave}
-            className="bg-blue-dark text-white px-4 py-2 rounded"
+            className="bg-blue hover:bg-blue-dark text-white px-4 py-2 rounded"
           >
             Save
           </button>

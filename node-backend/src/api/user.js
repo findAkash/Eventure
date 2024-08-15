@@ -5,6 +5,7 @@ import {
 } from '../helpers/handle-async-request.js';
 import { User } from '../models/User.js';
 import UserSession from '../models/Session.js';
+import { authMiddleware } from '../middleware/authMiddleware.js';
 
 export class UserAPI {
   static instance() {
@@ -12,10 +13,68 @@ export class UserAPI {
     router.post('/', createUser);
     router.post('/login', loginUser);
     router.get('/logout', logoutUser);
-    // router.get('/checkToken', checkToken);
+    router.use(authMiddleware('user'));
+    router.get('/my-details', getMyDetails);
+    router.get('/', getAllUsers);
+    router.put('/password', changePassword);
+    router.put('/update-myprofile', updateMyProfile);
     return router;
   }
 }
+
+const updateMyProfile = handleAsyncRequest(async (req, res) => {
+  const response = await User.findByIdAndUpdate(req.user._id, req.body, {
+    new: true,
+  });
+  console.log(response);
+  return {
+    success: true,
+    data: response,
+  };
+});
+
+const changePassword = handleAsyncRequest(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    throw new APIError(404, 'User not found');
+  }
+  const { currentPassword, newPassword } = req.body;
+  console.log(currentPassword, newPassword);
+  const isMatch = await user.comparePassword(newPassword);
+  if (isMatch) {
+    throw new APIError(
+      400,
+      'New password cannot be the same as the old password'
+    );
+  }
+  const currentPasswordMatch = await user.comparePassword(currentPassword);
+  if (!currentPasswordMatch) {
+    throw new APIError(400, 'Current password is incorrect');
+  }
+  user.password = newPassword;
+  await user.save();
+  return { success: true, message: 'Password changed successfully' };
+});
+
+const getAllUsers = handleAsyncRequest(async (req, res) => {
+  const users = await User.find();
+  console.log('users = ', users);
+  return {
+    success: true,
+    data: users.map((user) => user.toJSON()),
+  };
+});
+
+const getMyDetails = handleAsyncRequest(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    throw new APIError(404, 'User not found');
+  }
+  return {
+    success: true,
+    data: user.toJSON(),
+  };
+});
 
 const createUser = handleAsyncRequest(async (req, res) => {
   const isExist = await User.findOne({ email: req.body.email });
@@ -63,7 +122,7 @@ const logoutUser = handleAsyncRequest(async (req, res) => {
   if (!token) return res.sendStatus(401);
 
   // Delete the session associated with the access token
-  await Session.findOneAndDelete({ accessToken: token });
+  await UserSession.findOneAndDelete({ accessToken: token });
 
   return { success: true, message: 'Logged out successfully' };
 });

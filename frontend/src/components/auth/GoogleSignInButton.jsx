@@ -12,7 +12,11 @@ const GoogleSignInButton = (text = 'signin_with') => {
     const decoded = jwtDecode(response?.credential);
     const apiResponse = await Auth.LoginWithGoogleAPI(decoded);
     if (apiResponse.success) {
-      loginSetup(apiResponse.accessToken, apiResponse.refreshToken);
+      loginSetup(
+        apiResponse.accessToken,
+        apiResponse.refreshToken,
+        apiResponse.user
+      );
       toast.success('Login Successful');
     } else {
       toast.error(apiResponse.message);

@@ -18,7 +18,7 @@ public class Event {
     private String id;
 
     @NotBlank(message = "Event name is required")
-    private String name;
+    private String title;
 
     private String description;
 
@@ -29,4 +29,8 @@ public class Event {
     private String location;
 
     private List<String> participants;
+
+    private List<String> images;
+
+    private String postedBy;
 }

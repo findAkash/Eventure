@@ -20,28 +20,36 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
     if (token) {
       // Fetch user data here
-      // setUser(fetchedUserData);
+      const fetchedUserData = JSON.parse(localStorage.getItem('user'));
+      setUser(fetchedUserData);
       setIsAuthenticated(true);
     }
     setIsLoading(false);
   }, []);
 
-  const loginSetup = (token, refreshToken) => {
+  const loginSetup = (token, refreshToken, user) => {
     setIsAuthenticated(true);
-    console.log('Login Setup', token, refreshToken);
-    localStorage.setItem('token', token); // Save token to local storage or cookies
-    localStorage.setItem('refreshToken', refreshToken); // Save refresh token to local storage or cookies
-    console.log('Login Setup done', token, refreshToken);
-    navigate('/Home');
+    localStorage.setItem('token', token); // Save token to local storage
+    localStorage.setItem('refreshToken', refreshToken); // Save refresh token to local storage
+    localStorage.setItem('user', JSON.stringify(user)); // Save user data to local storage
+    setUser(user);
+    console.log(user.role);
+    // Redirect based on user role
+    if (user.role === 'Admin') {
+      navigate('/admin/dashboard');
+    } else {
+      navigate('/home');
+    }
   };
 
   const logoutSetup = () => {
     setIsAuthenticated(false);
     setUser(null);
     localStorage.removeItem('token'); // Remove token from storage
+    localStorage.removeItem('refreshToken'); // Remove refresh token from storage
+    localStorage.removeItem('user'); // Remove user data
     navigate('/login'); // Use navigate instead of history.push
   };
-  console.log('isAuthenticated:', isAuthenticated);
   const value = {
     isAuthenticated,
     user,
